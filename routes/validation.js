@@ -54,6 +54,5 @@ module.exports = {
     validateSignUpUser,
     validateLoginUser,
     validateGetDocument,
-    validatePostDocument,
     verifyToken
 }
