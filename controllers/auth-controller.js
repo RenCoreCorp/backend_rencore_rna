@@ -1,12 +1,6 @@
 const { fetchUserByEmail, 
         createUser, 
         fetchDocumentByUser,
-        createDocument,
-        fetchAllDocumentByUser ,
-        fetchDocumentOPByUser,
-        adminStageS1,
-        adminStageS2,
-        fetchAdminDocumentByUser,fetchAdminUDocumentByUser
     } = require('../services/users-service');
 const jwt = require("jsonwebtoken");
 const passport = require('passport');
@@ -38,66 +32,6 @@ const signUpUser = async (req, res, next) => {
     }
 }
 
-//Создание отметки в documents
-const createDocumentByUser = async (req, res, next) => {
-    const { user_id,comment } = req.body;
-    try {
-        const document = {
-            user_id, 
-            comment
-        }
-        const newDocument = await createDocument(document);
-        return res.status(201).json(newDocument);
-    } catch(err) {
-        return next(err);
-    }
-}
-
-//вывод Admin документов
-const fetchDocument = async (req, res, next) => {
-    try {
-        const {dt1,dt2} = req.params
-        const newDocument = await fetchAllDocumentByUser(dt1,dt2)
-        if (!newDocument) {
-            return res.status(422).json({
-                error: { status: 422, data: "Нет данных."}
-            });
-        }
-        return res.json(newDocument)
-    } catch(err) {
-        return next(err);
-    }
-}
-
-const fetchAdminDocument = async (req, res, next) => {
-    try {
-        const {dt1,dt2,user} = req.params
-        const newDocument = await fetchAdminDocumentByUser(dt1,dt2,user)
-        if (!newDocument) {
-            return res.status(422).json({
-                error: { status: 422, data: "Нет данных."}
-            });
-        }
-        return res.json(newDocument)
-    } catch(err) {
-        return next(err);
-    }
-}
-
-const fetchAdminUDocument = async (req, res, next) => {
-    try {
-        const {dt1,dt2} = req.params
-        const newDocument = await fetchAdminUDocumentByUser(dt1,dt2)
-        if (!newDocument) {
-            return res.status(422).json({
-                error: { status: 422, data: "Нет данных."}
-            });
-        }
-        return res.json(newDocument)
-    } catch(err) {
-        return next(err);
-    }
-}
 //вход в учетку
 const loginUser = (req, res, next) => {
         passport.authenticate(
@@ -161,60 +95,6 @@ const documentData = async (req, res, next) => {
     }
 }
 
-const adminStag1 = async (req, res, next) => {
-    try {
-        const {id_smeny} = req.params
-        const document = await adminStageS1(id_smeny)
-        if (!document) {
-            return res.status(422).json({
-                error: { status: 422, data: "Нет данных."}
-            });
-        }
-        //возвращает все документы
-        res.status(200).json(document)
-    } catch(err) {
-        return next(err);
-    }
-}
-
-const adminStag2 = async (req, res, next) => {
-    try {
-        const {user_id,id_smeny} = req.params
-        const document = await adminStageS2(user_id,id_smeny)
-        if (!document) {
-            return res.status(422).json({
-                error: { status: 422, data: "Нет данных."}
-            });
-        }
-        //возвращает все документы
-        res.status(200).json(document)
-    } catch(err) {
-        return next(err);
-    }
-}
-
-//вывод информации с таблицы с условием
-const fetchDocuments = async (req, res, next) => {
-    try {
-        
-        const {user_id,id_smeny} = req.params
-        const document = await fetchDocumentOPByUser(user_id,id_smeny)
-        if (!document) {
-            return res.status(422).json({
-                error: { status: 422, data: "Нет данных."}
-            });
-        }
-
-        // //возвращает все документы
-        return res.json(document)
-
-        //возвращает только 1 документ
-        // return res.json(document)
-        next()
-    } catch(err) {
-        return next(err);
-    }
-}
 
 //выход с учетки
 const logoutUser = (req, res, next) => {
@@ -230,10 +110,4 @@ module.exports = {
     loginUser, 
     logoutUser, 
     documentData,
-    createDocumentByUser,
-    fetchDocument,
-    fetchDocuments,
-    adminStag1,
-    adminStag2,
-    fetchAdminDocument,fetchAdminUDocument
 }

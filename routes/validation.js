@@ -18,10 +18,6 @@ const validateSignUpUser = [
     validationHandler
 ]
 
-const validatePostDocument = [
-    check('user_id').not().isEmpty(),
-    validationHandler
-]
 
 const validateLoginUser = [
     check('password').not().isEmpty().isLength({max: 100}),

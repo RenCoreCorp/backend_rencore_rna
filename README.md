@@ -6,7 +6,7 @@ npm install -g concurrently
 2. connect.bestprofi.com сайт если хотите поглядеть
 3. Переименуйте файлы .env.sample в .env, и добавьте слеюущие данные по базе:
 ```
-PORT=5000
+PORT=8000
 DB_USER=
 DB_PASSWORD=
 DB_HOST=localhost
