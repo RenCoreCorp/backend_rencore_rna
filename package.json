@@ -5,8 +5,9 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./server.js",
-    "dev": "concurrently \"nodemon ./server.js\" \"cd ../client && npm start\""
+    "start": "concurrently \"nodemon server.js\"  \"cd ../frontend && npm start\" ",
+    "server": "nodemon server.js",
+    "frontside": "cd ../frontend && npm start"
   },
   "author": "",
   "license": "ISC",
