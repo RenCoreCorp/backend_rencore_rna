@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const jwt_decode = require('jwt-decode');
 const config = process.env;
 // Function that validates and sends back response
+
 const validationHandler = (req, res, next) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
@@ -15,8 +16,17 @@ const validateSignUpUser = [
     check('last_name').not().isEmpty().isLength({max: 100}),
     check('password').not().isEmpty().isLength({min: 6, max: 100}),
     check('email').not().isEmpty().isEmail().isLength({max: 100}),
+    check('number').not().isEmpty().isEmail().isLength({max: 100}),
     validationHandler
 ]
+
+const validateSignUpGuest = [
+  check('first_name').not().isEmpty().isLength({max: 100}),
+  check('last_name').not().isEmpty().isLength({max: 100}),
+  check('number').not().isEmpty().isLength({max: 100}),
+  validationHandler
+]
+
 
 
 const validateLoginUser = [
@@ -54,5 +64,6 @@ module.exports = {
     validateSignUpUser,
     validateLoginUser,
     validateGetDocument,
-    verifyToken
+    verifyToken,
+    validateSignUpGuest
 }

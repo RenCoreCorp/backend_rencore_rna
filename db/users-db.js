@@ -20,10 +20,22 @@ const fetchDocumentByUserDb = async (user_id) => {
     }
 }
 
-const createUserDb = async ({email, first_name, last_name, pwd_hash}) => {
-    const text = `INSERT INTO users(email, first_name, last_name, pwd_hash)
-                  VALUES($1, $2, $3, $4) RETURNING id`;
-    const values = [email, first_name, last_name, pwd_hash];
+const createUserDb = async ({email, first_name, last_name, pwd_hash,number,status}) => {
+    const text = `INSERT INTO users(email, first_name, last_name, pwd_hash,number,status)
+                  VALUES($1, $2, $3, $4,$5,$6) RETURNING id`;
+    const values = [email, first_name, last_name, pwd_hash,number,status];
+    try {
+        const res = await db.query(text, values);
+        return res.rows[0];
+    } catch(e) {
+        throw new Error(e.message);
+    }
+}
+
+const createUserDb2 = async ({first_name, last_name,number}) => {
+    const text = `INSERT INTO users(first_name, last_name,number)
+                  VALUES($1, $2, $3) RETURNING id`;
+    const values = [first_name, last_name,number];
     try {
         const res = await db.query(text, values);
         return res.rows[0];
@@ -35,5 +47,6 @@ const createUserDb = async ({email, first_name, last_name, pwd_hash}) => {
 module.exports = {  
                     fetchUserByEmailDb,
                     createUserDb, 
-                    fetchDocumentByUserDb
+                    fetchDocumentByUserDb,
+                    createUserDb2,
                 }

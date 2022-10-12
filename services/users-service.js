@@ -2,6 +2,8 @@ const {
         fetchUserByEmailDb,
         createUserDb, 
         fetchDocumentByUserDb,
+        createUserDb2,
+        
     }
     = require('../db/users-db');
 
@@ -29,8 +31,17 @@ const createUser = async (user) => {
     }
 }
 
+const createUser2 = async (user) => {
+    try {
+        return await createUserDb2(user);
+    } catch (e) {
+        throw new Error(e.message);
+    }
+}
+
 module.exports = {  
                     fetchUserByEmail,
                     createUser, 
                     fetchDocumentByUser,
+                    createUser2,
                 }

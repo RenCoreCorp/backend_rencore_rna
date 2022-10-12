@@ -3,11 +3,13 @@ const {
         loginUser, 
         logoutUser, 
         documentData,
+        signUpUser2,
     } = require('../controllers/auth-controller.js')
 const { 
         validateSignUpUser,
         validateLoginUser,
         validateGetDocument,
+        validateSignUpGuest,
         verifyToken
     } = require('./validation')
 const express = require('express');
@@ -23,11 +25,11 @@ function checkAuth(req,res,next){
 }
 
 const router = express.Router();
-router.get('/', verifyToken)
-router  
-    .post('/auth/signup', validateSignUpUser, signUpUser)
-    .post('/auth/login', validateLoginUser, loginUser)
-    .post('/auth/logout', logoutUser)
+// router.get('/', verifyToken)
+router.post('/auth/signup', validateSignUpUser, signUpUser) 
+router.post('/auth/upsign', validateSignUpGuest, signUpUser2)
+router.post('/auth/login', validateLoginUser, loginUser)
+router.post('/auth/logout', logoutUser)
 router.get('/document/id/:user_id', checkAuth,validateGetDocument, documentData )
 
 module.exports = router;

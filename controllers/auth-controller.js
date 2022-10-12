@@ -1,14 +1,15 @@
 const { fetchUserByEmail, 
         createUser, 
         fetchDocumentByUser,
+        createUser2,
     } = require('../services/users-service');
 const jwt = require("jsonwebtoken");
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 
-//регистрация
+//регистрация пользователя
 const signUpUser = async (req, res, next) => {
-    const { email, first_name, last_name, password } = req.body;
+    const { email, first_name, last_name, password ,number,status} = req.body;
 
     try {
         const userDb = await fetchUserByEmail(email)  
@@ -24,8 +25,26 @@ const signUpUser = async (req, res, next) => {
             first_name,
             last_name,
             pwd_hash,
+            number,
+            status
         }
         const newUser = await createUser(user);
+        res.status(201).json({user_id: newUser.id});
+    } catch(err) {
+        return next(err);
+    }
+}
+
+//регистрация гостя
+const signUpUser2 = async (req, res, next) => {
+    const { first_name, last_name,number } = req.body;
+    try {    
+            const user = {
+            first_name,
+            last_name,
+            number
+        }
+        const newUser = await createUser2(user);
         res.status(201).json({user_id: newUser.id});
     } catch(err) {
         return next(err);
@@ -110,4 +129,5 @@ module.exports = {
     loginUser, 
     logoutUser, 
     documentData,
+    signUpUser2,
 }
