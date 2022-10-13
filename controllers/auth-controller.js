@@ -65,7 +65,7 @@ const loginUser = (req, res, next) => {
                     req.login(user, (err) => {
                         if (err) return next(err);
                         const { id, first_name, last_name, email, isAdmin } = req.user;
-                        const token = jwt.sign({id: user.id, email: user.email}, process.env.SESSION_SECRET, {expiresIn: "24h"})
+                        const token = jwt.sign({id: user.id, email: user.email,name: first_name,lname: last_name,admin: isAdmin}, process.env.SESSION_SECRET, {expiresIn: "24h"})
                         // const userinfo = {
                         //     id, first_name, last_name, email, isAdmin
                         // }
@@ -119,6 +119,7 @@ const documentData = async (req, res, next) => {
 const logoutUser = (req, res, next) => {
     req.logout();
     res.clearCookie('connect.sid');
+    res.clearCookie('x-access-token');
     req.session.destroy(function (err) {
         res.status(200).send();
     });
